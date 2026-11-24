@@ -1,0 +1,16 @@
+{
+  "name": "nx-panel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "preview": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.15.15",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.4.7"
+  }
+}
