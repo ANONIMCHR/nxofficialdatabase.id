@@ -1,0 +1,17 @@
+{
+  "name": "nx-panel",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node local-dev.js",
+    "preview": "node local-dev.js",
+    "start": "node local-dev.js"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.15.15",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": { "vercel": "^39.4.2" }
+}

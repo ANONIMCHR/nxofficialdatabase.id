@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050505"><title>NX PANEL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main id="loginView" class="login-shell">
+    <section class="login-card glass-card">
+      <div class="brand-mark" id="loginLogoFallback">NX</div>
+      <img id="loginLogo" class="brand-image hidden" alt="NX logo">
+      <p class="eyebrow">LICENSE MANAGEMENT PLATFORM</p>
+      <h1 id="loginTitle">NX PANEL</h1>
+      <p class="muted-copy">Masuk untuk mengelola license dan reseller.</p>
+      <form id="loginForm" class="form-stack">
+        <label>Username<input id="loginUsername" autocomplete="username" required maxlength="32" placeholder="Username"></label>
+        <label>Password<div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Password"><button type="button" id="togglePassword" class="text-button">SHOW</button></div></label>
+        <p id="loginError" class="error-text" role="alert"></p>
+        <button class="btn-beam primary-button" type="submit">Sign in <span>↗</span></button>
+      </form>
+      <p class="tiny-note">Secure staff access · NX PANEL</p>
+    </section>
+  </main>
+
+  <div id="dashboardView" class="app-shell hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand"><span class="brand-mark small" id="navLogoFallback">NX</span><img id="navLogo" class="brand-image small hidden" alt="NX logo"><div><strong id="navBrandName">NX PANEL</strong><small>CONTROL CENTER</small></div></div>
+      <nav class="side-nav">
+        <button class="nav-link active" data-view="overview">◫ <span>Overview</span></button>
+        <button class="nav-link" data-view="licenses">⌘ <span>License Manager</span></button>
+        <button class="nav-link" data-view="staff" data-admin-only>♙ <span>Kelola Staff</span></button>
+        <button class="nav-link" data-view="logs" data-admin-only>▤ <span>Audit Logs</span></button>
+      </nav>
+      <div class="sidebar-bottom"><span class="connection-dot" id="connectionDot"></span><span id="connectionText">Connecting...</span><small>NX PANEL · v1.0</small></div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar"><button id="mobileMenu" class="icon-button" aria-label="Menu">☰</button><div><p class="eyebrow">WORKSPACE / <span id="breadcrumb">OVERVIEW</span></p><h2 id="pageTitle">Overview</h2></div><div class="topbar-user"><div class="user-avatar" id="userAvatar">NX</div><div><strong id="staffName">Staff</strong><small id="staffRoleLabel">ROLE</small></div><button id="logoutButton" class="outline-button">Logout</button></div></header>
+
+      <section id="overviewPage" class="page-view">
+        <div class="welcome-row"><div><p class="eyebrow">DASHBOARD</p><h1>License overview<span class="white-dot">.</span></h1><p class="muted-copy">Pantau seluruh license dan aktivitas panel kamu.</p></div><span class="live-pill"><i></i> LIVE SYNC</span></div>
+        <div class="stats-grid">
+          <article class="stat-card"><span>Total licenses</span><strong id="statTotal">0</strong><small>All registered keys</small></article>
+          <article class="stat-card"><span>Active</span><strong id="statActive">0</strong><small>Currently available</small></article>
+          <article class="stat-card"><span>Muted</span><strong id="statMuted">0</strong><small>Access paused</small></article>
+          <article class="stat-card"><span>Expired</span><strong id="statExpired">0</strong><small>Past expiration</small></article>
+        </div>
+        <div class="content-grid">
+          <section class="panel-card generator-card"><div class="section-heading"><div><p class="eyebrow">QUICK ACTION</p><h3>Generate license</h3></div><span class="icon-tile">＋</span></div>
+            <form id="generateForm" class="generator-form">
+              <label>Nama user<input id="newUsername" required maxlength="80" placeholder="Masukkan nama user"></label>
+              <label>Produk panel<select id="newProduct" required></select></label>
+              <div class="two-fields"><label>Prefix<input id="newPrefix" value="NX" maxlength="8"></label><label>Custom key <span class="muted-inline">(opsional)</span><input id="customKey" placeholder="NX-XXXX-XXXX-XXXX"></label></div>
+              <label>Durasi<select id="newDuration"><option value="1">1 Hari</option><option value="3">3 Hari</option><option value="7" selected>7 Hari</option><option value="30">30 Hari</option><option value="custom">Custom Hari</option><option value="lifetime">LIFETIME</option></select></label>
+              <label id="customDaysWrap" class="hidden">Jumlah hari<input id="customDays" type="number" min="1" max="3650" value="14"></label>
+              <button class="btn-beam primary-button" type="submit">＋ Generate license</button>
+            </form>
+          </section>
+          <section class="panel-card product-card"><div class="section-heading"><div><p class="eyebrow">DISTRIBUTION</p><h3>Product breakdown</h3></div><span class="muted-inline">By product</span></div><div id="productBreakdown" class="breakdown-list"></div></section>
+        </div>
+        <section class="panel-card table-card"><div class="section-heading"><div><p class="eyebrow">LATEST ACTIVITY</p><h3>Live leaderboard</h3></div><button class="outline-button" data-go="licenses">View all ↗</button></div><div class="table-wrap"><table><thead><tr><th>User</th><th>License key</th><th>Product</th><th>Status</th><th>Remaining</th></tr></thead><tbody id="overviewTable"><tr><td colspan="5" class="empty-cell">Belum ada data.</td></tr></tbody></table></div></section>
+      </section>
+
+      <section id="licensesPage" class="page-view hidden"><div class="page-intro"><div><p class="eyebrow">DATABASE / LICENSES</p><h1>License manager<span class="white-dot">.</span></h1><p class="muted-copy">Cari, filter, dan kelola semua license.</p></div><button id="refreshButton" class="outline-button">↻ Refresh</button></div>
+        <section class="panel-card table-card"><div class="toolbar"><input id="searchInput" class="search-input" placeholder="Cari username atau license key..."><select id="productFilter"><option value="ALL">Semua produk</option></select><select id="statusFilter"><option value="ALL">Semua status</option><option>ACTIVE</option><option>MUTED</option><option>EXPIRED</option></select><button id="globalMuteButton" class="outline-button admin-only">Mute all</button></div>
+          <div class="table-wrap"><table><thead><tr><th>User</th><th>License key</th><th>Product</th><th>Status</th><th>Remaining</th><th>Created</th><th>Actions</th></tr></thead><tbody id="licenseTable"><tr><td colspan="7" class="empty-cell">Memuat data...</td></tr></tbody></table></div><div class="table-footer"><span id="rowCount">0 records</span><span>Auto sync setiap 3 detik</span></div>
+        </section>
+      </section>
+
+      <section id="staffPage" class="page-view hidden"><div class="page-intro"><div><p class="eyebrow">ACCESS CONTROL</p><h1>Staff management<span class="white-dot">.</span></h1><p class="muted-copy">Atur akun dan tingkat akses staff.</p></div></div><div class="content-grid"><section class="panel-card"><div class="section-heading"><div><p class="eyebrow">NEW ACCOUNT</p><h3>Tambah staff</h3></div></div><form id="staffForm" class="generator-form"><label>Username<input id="staffUsername" required minlength="3" maxlength="32"></label><label>Password<input id="staffPassword" type="password" required minlength="12" placeholder="Minimal 12 karakter"></label><label>Role<select id="staffRoleSelect"></select></label><button class="btn-beam primary-button">＋ Tambah staff</button></form></section><section class="panel-card table-card"><div class="section-heading"><div><p class="eyebrow">TEAM</p><h3>Registered staff</h3></div></div><div class="table-wrap"><table><thead><tr><th>Username</th><th>Role</th><th>Created</th><th>Action</th></tr></thead><tbody id="staffTable"></tbody></table></div></section></div></section>
+
+      <section id="logsPage" class="page-view hidden"><div class="page-intro"><div><p class="eyebrow">SECURITY / ACTIVITY</p><h1>Audit logs<span class="white-dot">.</span></h1><p class="muted-copy">Riwayat aktivitas staff.</p></div></div><section class="panel-card table-card"><div class="table-wrap"><table><thead><tr><th>Time</th><th>Staff</th><th>Role</th><th>Action</th><th>Target</th><th>Details</th></tr></thead><tbody id="logsTable"></tbody></table></div></section></section>
+    </main>
+  </div>
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+  <div id="confirmModal" class="modal-backdrop hidden"><div class="modal-card"><p class="eyebrow">CONFIRM ACTION</p><h3 id="modalTitle">Are you sure?</h3><p id="modalMessage" class="muted-copy">Tindakan ini tidak dapat dibatalkan.</p><div class="modal-actions"><button id="modalCancel" class="outline-button">Cancel</button><button id="modalConfirm" class="danger-button">Confirm</button></div></div></div>
+  <div id="extendModal" class="modal-backdrop hidden"><form id="extendForm" class="modal-card"><p class="eyebrow">LICENSE DURATION</p><h3>Extend license</h3><p class="muted-copy">Tambahkan masa aktif dari waktu kedaluwarsa saat ini.</p><label class="modal-field">Jumlah hari<input id="extendDays" type="number" min="1" max="3650" value="7" required></label><label class="modal-check"><input id="extendLifetime" type="checkbox"> Ubah menjadi LIFETIME</label><div class="modal-actions"><button type="button" id="extendCancel" class="outline-button">Cancel</button><button class="danger-button" type="submit">Save duration</button></div></form></div>
+  <script type="module" src="./app.js"></script>
+</body></html>
